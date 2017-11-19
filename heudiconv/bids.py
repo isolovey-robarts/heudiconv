@@ -120,37 +120,6 @@ def tuneup_bids_json_files(json_files):
         #json.dump(json_, open(jsonfile, 'w'), indent=2)
         save_json(jsonfile, json_, indent=2) # ensure this does same as above
 
-    # Load the beast
-    seqtype = op.basename(op.dirname(jsonfile))
-
-    # MG - want to expand this for other _epi
-    # possibly add IntendedFor automatically as well?
-    if seqtype == 'fmap':
-        json_basename = '_'.join(jsonfile.split('_')[:-1])
-        # if we got by now all needed .json files -- we can fix them up
-        # unfortunately order of "items" is not guaranteed atm
-        if len(glob(json_basename + '*.json')) == 3:
-            json_phasediffname = json_basename + '_phasediff.json'
-            json_ = load_json(json_phasediffname)
-            # TODO: we might want to reorder them since ATM
-            # the one for shorter TE is the 2nd one!
-            # For now just save truthfully by loading magnitude files
-            lgr.debug("Placing EchoTime fields into phasediff file")
-            for i in 1, 2:
-                try:
-                    json_['EchoTime%d' % i] = (load_json(json_basename +
-                                          '_magnitude%d.json' % i)['EchoTime'])
-                except IOError as exc:
-                    lgr.error("Failed to open magnitude file: %s", exc)
-            # might have been made R/O already, but if not -- it will be set
-            # only later in the pipeline, so we must not make it read-only yet
-            was_readonly = is_readonly(json_phasediffname)
-            if was_readonly:
-                set_readonly(json_phasediffname, False)
-            save_json(json_phasediffname, json_, indent=2)
-            if was_readonly:
-                set_readonly(json_phasediffname)
-
 
 def add_participant_record(studydir, subject, age, sex):
     participants_tsv = op.join(studydir, 'participants.tsv')
