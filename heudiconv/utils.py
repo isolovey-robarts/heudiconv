@@ -63,13 +63,8 @@ class TempDirs(object):
         self.exists = op.exists
         self.lgr = logging.getLogger('tempdirs')
 
-    def __call__(self, prefix=None):
-        cctmp = '/scratch/akhanf'
-        if os.path.isdir(cctmp):
-            tmpdir = mkdtemp(prefix='heudiconvDCM', dir=cctmp)
-        else:
-            tmpdir = mkdtemp(prefix='heudiconvDCM')
-
+    def __call__(self, prefix=None,dir=None):
+        tmpdir = mkdtemp(prefix=prefix,dir=dir)
         self.dirs.append(tmpdir)
         return tmpdir
 

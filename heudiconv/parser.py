@@ -47,7 +47,7 @@ def find_files(regex, topdir=op.curdir, exclude=None,
             yield path
 
 
-def get_extracted_dicoms(fl):
+def get_extracted_dicoms(fl,dir=None):
     """Given a list of files, possibly extract some from tarballs
     For 'classical' heudiconv, if multiple tarballs are provided, they correspond
     to different sessions, so here we would group into sessions and return
@@ -64,11 +64,7 @@ def get_extracted_dicoms(fl):
     # of all files in all tarballs
 
     # cannot use TempDirs since will trigger cleanup with __del__
-    cctmp='/scratch/akhanf'
-    if os.path.isdir(cctmp):
-        tmpdir = mkdtemp(prefix='heudiconvDCM',dir=cctmp)
-    else:
-        tmpdir = mkdtemp(prefix='heudiconvDCM')
+    tmpdir = mkdtemp(prefix='heudiconvDCM', dir=dir)
 
     sessions = defaultdict(list)
     session = 0
@@ -107,7 +103,7 @@ def get_extracted_dicoms(fl):
 
 
 def get_study_sessions(dicom_dir_template, files_opt, heuristic, outdir,
-                       session, sids, grouping='studyUID'):
+                       session, sids,custom_tmpdir,grouping='studyUID'):
     """Given options from cmdline sort files or dicom seqinfos into
     study_sessions which put together files for a single session of a subject
     in a study
@@ -133,7 +129,7 @@ def get_study_sessions(dicom_dir_template, files_opt, heuristic, outdir,
         for sid in sids:
             sdir = dicom_dir_template.format(subject=sid, session=session)
             files = sorted(glob(sdir))
-            for session_, files_ in get_extracted_dicoms(files):
+            for session_, files_ in get_extracted_dicoms(files,dir=custom_tmpdir):
                 if session_ is not None and session:
                     lgr.warning(
                         "We had session specified (%s) but while analyzing "

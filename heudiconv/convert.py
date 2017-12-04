@@ -57,7 +57,7 @@ def conversion_info(subject, outdir, info, filegroup, ses):
 
 def prep_conversion(sid, dicoms, outdir, heuristic, converter, anon_sid,
                    anon_outdir, with_prov, ses, bids, seqinfo, min_meta,
-                   overwrite):
+                   overwrite,custom_tmpdir):
     if dicoms:
         lgr.info("Processing %d dicoms", len(dicoms))
     elif seqinfo:
@@ -142,7 +142,8 @@ def prep_conversion(sid, dicoms, outdir, heuristic, converter, anon_sid,
                 bids=bids,
                 outdir=tdir,
                 min_meta=min_meta,
-                overwrite=overwrite,)
+                overwrite=overwrite,
+                custom_tmpdir=custom_tmpdir)
     if bids:
         if seqinfo:
             keys = list(seqinfo)
@@ -155,7 +156,7 @@ def prep_conversion(sid, dicoms, outdir, heuristic, converter, anon_sid,
 
 
 def convert(items, converter, scaninfo_suffix, custom_callable, with_prov,
-            bids, outdir, min_meta, overwrite, symlink=True, prov_file=None):
+            bids, outdir, min_meta, overwrite, symlink=True, prov_file=None, custom_tmpdir=None):
     """Perform actual conversion (calls to converter etc) given info from
     heuristic's `infotodict`
 
@@ -177,7 +178,7 @@ def convert(items, converter, scaninfo_suffix, custom_callable, with_prov,
     None
     """
     prov_files = []
-    tempdirs = TempDirs()
+    tempdirs = TempDirs(dir=custom_tmpdir)
 
     for item_idx, item in enumerate(items):
 

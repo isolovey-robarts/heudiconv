@@ -63,7 +63,7 @@ def process_extra_commands(outdir, args):
         for f in args.files:
             study_sessions = get_study_sessions(
                 args.dicom_dir_template, [f], heuristic, outdir,
-                args.session, args.subjs, grouping=args.grouping)
+                args.session, args.subjs, args.custom_tmpdir, grouping=args.grouping)
             # print(f)
             for study_session, sequences in study_sessions.items():
                 suf = ''
@@ -171,6 +171,8 @@ def get_parser():
     parser.add_argument('--minmeta', action='store_true',
                         help='Exclude dcmstack meta information in sidecar '
                         'jsons')
+    parser.add_argument('--tempdir', dest='custom_tmpdir',action='store',
+                        help='Specify custom temporary folder')
 
     submission = parser.add_argument_group('Conversion submission options')
     submission.add_argument('-q', '--queue', default=None,
@@ -205,7 +207,7 @@ def process_args(args):
 
     study_sessions = get_study_sessions(args.dicom_dir_template, args.files,
                                         heuristic, outdir, args.session,
-                                        args.subjs, grouping=args.grouping)
+                                        args.subjs, args.custom_tmpdir,grouping=args.grouping)
 
     # extract tarballs, and replace their entries with expanded lists of files
     # TODO: we might need to sort so sessions are ordered???
@@ -285,7 +287,8 @@ def process_args(args):
                         bids=args.bids,
                         seqinfo=seqinfo,
                         min_meta=args.minmeta,
-                        overwrite=args.overwrite,)
+                        overwrite=args.overwrite,
+                        custom_tmpdir=args.custom_tmpdir)
 
         lgr.info("PROCESSING DONE: {0}".format(
             str(dict(subject=sid, outdir=study_outdir, session=session))))
