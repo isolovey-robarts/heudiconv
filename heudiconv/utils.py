@@ -64,11 +64,11 @@ class TempDirs(object):
         self.lgr = logging.getLogger('tempdirs')
 
     def __call__(self, prefix=None):
-        cctmp = str.join('/scratch/', os.environ['USER'])
+        cctmp = '/scratch/' + os.environ['USER']
         if os.path.isdir(cctmp):
-            tmpdir = mkdtemp(prefix=prefix, dir=cctmp)
+            tmpdir = mkdtemp(prefix='heudiconvDCM', dir=cctmp)
         else:
-            tmpdir = mkdtemp(prefix=prefix)
+            tmpdir = mkdtemp(prefix='heudiconvDCM')
 
         self.dirs.append(tmpdir)
         return tmpdir
