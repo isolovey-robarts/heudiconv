@@ -64,7 +64,11 @@ def get_extracted_dicoms(fl):
     # of all files in all tarballs
 
     # cannot use TempDirs since will trigger cleanup with __del__
-    tmpdir = mkdtemp(prefix='heudiconvDCM')
+    cctmp=str.join('/scratch/',os.environ['USER'])
+    if os.path.isdir(cctmp):
+        tmpdir = mkdtemp(prefix='heudiconvDCM',dir=cctmp)
+    else:
+        tmpdir = mkdtemp(prefix='heudiconvDCM')
 
     sessions = defaultdict(list)
     session = 0

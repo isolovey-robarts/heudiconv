@@ -64,7 +64,12 @@ class TempDirs(object):
         self.lgr = logging.getLogger('tempdirs')
 
     def __call__(self, prefix=None):
-        tmpdir = mkdtemp(prefix=prefix)
+        cctmp = str.join('/scratch/', os.environ['USER'])
+        if os.path.isdir(cctmp):
+            tmpdir = mkdtemp(prefix=prefix, dir=cctmp)
+        else:
+            tmpdir = mkdtemp(prefix=prefix)
+
         self.dirs.append(tmpdir)
         return tmpdir
 
