@@ -64,7 +64,7 @@ class TempDirs(object):
         self.lgr = logging.getLogger('tempdirs')
 
     def __call__(self, prefix=None):
-        cctmp = '/scratch/' + os.environ['USER']
+        cctmp = '/scratch/akhanf'
         if os.path.isdir(cctmp):
             tmpdir = mkdtemp(prefix='heudiconvDCM', dir=cctmp)
         else:
