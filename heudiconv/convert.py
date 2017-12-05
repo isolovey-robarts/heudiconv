@@ -178,7 +178,8 @@ def convert(items, converter, scaninfo_suffix, custom_callable, with_prov,
     None
     """
     prov_files = []
-    tempdirs = TempDirs(dir=custom_tmpdir)
+    tempdirs = TempDirs()
+    tempdirs(dir=custom_tmpdir)
 
     for item_idx, item in enumerate(items):
 
