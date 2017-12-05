@@ -46,6 +46,13 @@ conda install -y -c conda-forge nipype
 pip install --upgrade pip
 pip install https://github.com/moloney/dcmstack/archive/c12d27d2c802d75a33ad70110124500a83e851ee.zip
 
+#dcm2niix
+RANDOM_TEMP=${RANDOM}
+wget https://www.dropbox.com/s/elg1t4fm3zp4qxg/mricrogl_linux.zip?dl=0 -O ${RANDOM_TEMP}.zip;unzip -o ${RANDOM_TEMP}.zip -d ${DEST}; rm ${RANDOM_TEMP}.zip
+
+
+
+
 # heudiconv
 cd /opt/heudiconv
 python setup.py install
@@ -59,8 +66,8 @@ cd
 export PATH=/opt/anaconda2/bin/:$PATH
 #heudiconv
 export PYTHONPATH=/opt/heudiconv:$PYTHONPATH
-#following just for testing
-export ALITEST=test
+#dcm2niix
+export PATH=/opt/mricrogl_lx:$PATH
 
 %runscript
 exec heudiconv $@
