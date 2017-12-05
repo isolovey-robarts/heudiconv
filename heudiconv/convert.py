@@ -179,7 +179,7 @@ def convert(items, converter, scaninfo_suffix, custom_callable, with_prov,
     """
     prov_files = []
     tempdirs = TempDirs()
-    tempdirs(dir=custom_tmpdir)
+    tempdirs(prefix='heudiconv',dir=custom_tmpdir)
 
     for item_idx, item in enumerate(items):
 
