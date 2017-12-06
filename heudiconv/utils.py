@@ -35,7 +35,8 @@ SeqInfo = namedtuple(
      'accession_number',      # 21
      'patient_age',           # 22
      'patient_sex',           # 23
-     'date'                   # 24
+     'date',                  # 24
+     'acquisition_time',      # 25
      ]
 )
 
