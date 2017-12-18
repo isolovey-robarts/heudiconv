@@ -1,6 +1,6 @@
 ORG=akhanf
 NAME=heudiconv
-VERSION = 0.4.1
+VERSION = 0.4.2
 
 DOCKER_NAME=$(ORG)/$(NAME):$(VERSION)
 DOCKER_LATEST=$(ORG)/$(NAME):latest
