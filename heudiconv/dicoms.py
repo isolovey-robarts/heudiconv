@@ -121,20 +121,29 @@ def group_dicoms_into_seqinfos(files, file_filter, dcmfilter, grouping):
                         series_id = series_id + (file_studyUID,)
                 groups[0].append(series_id)
                 groups[1].append(idx)
+                # ensure that the first image of every series is stored for seq_info
+                # needed for correct acquisition time
+                if mw.dcm_data.InstanceNumber==1:
+                    mwgroup[idx]=mw
 
         if not ingrp:
             mwgroup.append(mw)
             groups[0].append(series_id)
             groups[1].append(len(mwgroup) - 1)
 
-    group_map = dict(zip(groups[0], groups[1]))
+        #if mw.dcm_data.InstanceNumber==1:
+        #    mwgroup_index = [g[1] for g in groups if g[0] == series_id][0]
+        #    mwgroup[mwgroup_index] = mw
 
+    group_map = dict(zip(groups[0], groups[1]))
+    
     total = 0
     seqinfo = OrderedDict()
 
     # for the next line to make any sense the series_id needs to
     # be sortable in a way that preserves the series order
     for series_id, mwidx in sorted(group_map.items()):
+        
         if series_id[0] < 0:
             # skip our fake series with unwanted files
             continue
@@ -217,6 +226,7 @@ def group_dicoms_into_seqinfos(files, file_filter, dcmfilter, grouping):
             dcminfo.get('PatientSex'),
             dcminfo.get('AcquisitionDate'),
             dcminfo.get('AcquisitionTime'),
+            dcminfo.get('InstanceNumber')
         )
         # candidates
         # dcminfo.AccessionNumber
