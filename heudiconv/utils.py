@@ -37,6 +37,7 @@ SeqInfo = namedtuple(
      'patient_sex',           # 23
      'date',                  # 24
      'acquisition_time',      # 25
+     'series_num',            # 26
      ]
 )
 
