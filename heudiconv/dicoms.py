@@ -131,10 +131,6 @@ def group_dicoms_into_seqinfos(files, file_filter, dcmfilter, grouping):
             groups[0].append(series_id)
             groups[1].append(len(mwgroup) - 1)
 
-        #if mw.dcm_data.InstanceNumber==1:
-        #    mwgroup_index = [g[1] for g in groups if g[0] == series_id][0]
-        #    mwgroup[mwgroup_index] = mw
-
     group_map = dict(zip(groups[0], groups[1]))
     
     total = 0
