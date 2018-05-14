@@ -331,8 +331,8 @@ def nipype_convert(item_dicoms, prefix, with_prov, bids, tmpdir):
     convertnode.base_dir = tmpdir
     convertnode.inputs.source_names = item_dicoms
     convertnode.inputs.out_filename = op.basename(op.dirname(prefix))
-    convertnode.inputs.terminal_output = 'allatonce'
     convertnode.inputs.bids_format = bids
+    convertnode.inputs.anon_bids = False
     return convertnode.run()
 
 
