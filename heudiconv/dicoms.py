@@ -58,6 +58,8 @@ def group_dicoms_into_seqinfos(files, file_filter, dcmfilter, grouping):
         nfl_after = len(files)
         lgr.info('Filtering out {0} dicoms based on their filename'.format(
             nfl_before-nfl_after))
+    import nibabel.nicom.csareader
+    nibabel.nicom.csareader.MAX_CSA_ITEMS = 400
     for fidx, filename in enumerate(files):
         # TODO after getting a regression test check if the same behavior
         #      with stop_before_pixels=True
